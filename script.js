@@ -1,4 +1,5 @@
 const client_id = "5fc2aa222174ccde3a168ba55367523c";
+const jump = 690; //very clean code
 
 var name1, name2;
 var select = -1;
@@ -118,9 +119,9 @@ async function convertIDToAnime(animeid){
 }
 
 
-async function getPTW(user){
-    link = 'https://cors-anywhere-2mlo.onrender.com/api.myanimelist.net/v2/users/' + user + '/animelist?offset=0&limit=690&nsfw=true&status=plan_to_watch'; 
-    if (choice == 'manga') link = 'https://cors-anywhere-2mlo.onrender.com/api.myanimelist.net/v2/users/' + user + '/mangalist?offset=0&limit=690&nsfw=true&status=plan_to_read'; 
+async function getPTW(user, offset){
+    link = 'https://cors-anywhere-2mlo.onrender.com/api.myanimelist.net/v2/users/' + user + '/animelist?offset=' + offset + '&limit=690&nsfw=true&status=plan_to_watch'; 
+    if (choice == 'manga') link = 'https://cors-anywhere-2mlo.onrender.com/api.myanimelist.net/v2/users/' + user + '/mangalist?offset=' + offset + '&limit=690&nsfw=true&status=plan_to_read'; 
     try {
         var response = await fetch(link, {
             method: "GET",
@@ -138,11 +139,17 @@ async function getPTW(user){
 
 async function getAnimeIDs(user){
     let ids = [];
-    let json = await getPTW(user);
-    console.log(json);
-    if(json.error == 'internal_server_error') setText("Internal Server Error", "error");
-    for(i = 0; i < json.data.length; i++){
-        ids.push(json.data[i].node.id);
+    let loop = 1;
+    let offset = 0;
+    while(loop == 1){       
+        let json = await getPTW(user, offset);
+        console.log(json);
+        if(json.error == 'internal_server_error') setText("Internal Server Error", "error");
+        for(i = 0; i < json.data.length; i++){
+            ids.push(json.data[i].node.id);
+        }
+        offset += jump;
+        if (!json.paging.next) loop = 0;
     }
 	return ids;
 }
