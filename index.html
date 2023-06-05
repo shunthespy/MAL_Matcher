@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real</title>
+</head>
+<body>
+    <h1 class="header">MAL Matcher</h1>
+    <div class="wrapper">
+        <div id="top">
+            <div class="input">
+                <input id="user1" placeholder="User 1">
+                <input id="user2" placeholder="User 2">
+                <button id="comp">Compare</button>
+                <select class="choice" id="choice">  
+                    <option>anime</option>  
+                    <option>manga</option>
+                </select>
+            </div>
+            <!-- <p class="error" id="text">error</p>  -->
+        </div>     
+        <a class="card" id="card" target="_blank" rel="noopener noreferrer" href="http://myanimelist.net">
+            <img draggable="false" class="pic" id="pic" src="https://upload.wikimedia.org/wikipedia/commons/c/ca/1x1.png" alt="img">
+            <h2 class="name" id="name"></h2>
+            <h2 class="score" id="score"></h2>
+            <p class="desc" id="desc"></p>           
+        </a>
+        <div class="buttons">
+            <button class="next" id="last">Last</button>
+            <button class="next" id="next">Next</button>
+        </div>
+    </div>
+</body>
+</html>
