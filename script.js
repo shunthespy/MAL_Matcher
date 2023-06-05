@@ -102,7 +102,7 @@ function remText(){
 }
 
 async function convertIDToAnime(animeid){
-    link = 'https://cors-anywhere-2mlo.onrender.com/api.myanimelist.net/v2/' + choice + '/' + animeid + '?fields=title,synopsis,mean,main_picture'; 
+    link = 'https://web-production-6bb3.up.railway.app/api.myanimelist.net/v2/' + choice + '/' + animeid + '?fields=title,synopsis,mean,main_picture'; 
     try {
         var response = await fetch(link, {
             method: "GET",
@@ -120,8 +120,8 @@ async function convertIDToAnime(animeid){
 
 
 async function getPTW(user, offset){
-    link = 'https://cors-anywhere-2mlo.onrender.com/api.myanimelist.net/v2/users/' + user + '/animelist?offset=' + offset + '&limit=690&nsfw=true&status=plan_to_watch'; 
-    if (choice == 'manga') link = 'https://cors-anywhere-2mlo.onrender.com/api.myanimelist.net/v2/users/' + user + '/mangalist?offset=' + offset + '&limit=690&nsfw=true&status=plan_to_read'; 
+    link = 'https://web-production-6bb3.up.railway.app/api.myanimelist.net/v2/users/' + user + '/animelist?offset=' + offset + '&limit=690&nsfw=true&status=plan_to_watch'; 
+    if (choice == 'manga') link = 'https://web-production-6bb3.up.railway.app/api.myanimelist.net/v2/users/' + user + '/mangalist?offset=' + offset + '&limit=690&nsfw=true&status=plan_to_read'; 
     try {
         var response = await fetch(link, {
             method: "GET",
