@@ -1,4 +1,4 @@
-const client_id = "5fc2aa222174ccde3a168ba55367523c";
+const client_id = "5fc2aa222174ccde3a168ba55367523c"; //this is public and intentional
 const jump = 690; //very clean code
 const proxy = "https://cors-anywhere-2mlo.onrender.com/"; //currently involves a spin-up, railway is no longer free
 
@@ -6,6 +6,12 @@ var name1, name2;
 var select = -1;
 animeList = list1 = list2 = [];
 choice = "";
+
+var hashParams = window.location.hash.substring(1).split('&'); // substr(1) to remove the `#`
+for(var i = 0; i < hashParams.length; i++){
+    var p = hashParams[i].split('=');
+    document.getElementById(p[0]).value = decodeURIComponent(p[1]);;
+} //got this code snippet from stackoverflow to help manage appending info to the url for demo purposes <3
 
 function Anime (id, title, desc, score, image){ //anime info object
     this.id = id;
@@ -15,7 +21,7 @@ function Anime (id, title, desc, score, image){ //anime info object
     this.image = image.large;
 }
 
-function buildCard(anime){ //grabs anime data, chucks onto site
+function buildCard(anime){ //grabs anime data from object, chucks onto site
     console.log(anime.image);
     console.log(document.getElementById("card").href);
     document.getElementById("card").href = "https://myanimelist.net/" + choice + '/' + anime.id;
