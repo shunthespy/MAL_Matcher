@@ -1,12 +1,13 @@
 const client_id = "5fc2aa222174ccde3a168ba55367523c";
 const jump = 690; //very clean code
+const proxy = "https://cors-anywhere-2mlo.onrender.com/"; //currently involves a spin-up, railway is no longer free
 
 var name1, name2;
 var select = -1;
 animeList = list1 = list2 = [];
 choice = "";
 
-function Anime (id, title, desc, score, image){
+function Anime (id, title, desc, score, image){ //anime info object
     this.id = id;
     this.title = title;
     this.desc = desc;
@@ -14,7 +15,7 @@ function Anime (id, title, desc, score, image){
     this.image = image.large;
 }
 
-function buildCard(anime){
+function buildCard(anime){ //grabs anime data, chucks onto site
     console.log(anime.image);
     console.log(document.getElementById("card").href);
     document.getElementById("card").href = "https://myanimelist.net/" + choice + '/' + anime.id;
@@ -24,20 +25,20 @@ function buildCard(anime){
     document.getElementById("score").innerText = anime.score + "⭐";
 }
 
-function selectNext(){
+function selectNext(){ //grabs next set of anime data
     if(select == -1) return animeList[++select];
     select = select == animeList.length - 1 ? 0 : ++select;
     console.log(animeList[select]);
     return animeList[select];
 } 
 
-function selectLast(){
+function selectLast(){ //idem as above, grab previous data/data from back of list of animes
     select = select == 0 ? animeList.length - 1 : --select;
     console.log(animeList[select]);
     return animeList[select];
 } 
 
-async function createList(){
+async function createList(){ //make list of animes
     select = 0;
     let a = [];  
     const res = await compareUsers(name1, name2);  
@@ -87,7 +88,7 @@ document.getElementById("user2").addEventListener("keypress", function(event) {
     }
   });
 
-function setText(prob, type){
+function setText(prob, type){ //set error text
     remText();
     let problem = document.createElement("p");
     problem.innerHTML = prob;
@@ -96,13 +97,13 @@ function setText(prob, type){
     document.getElementById("top").appendChild(problem);
 }
 
-function remText(){
+function remText(){ //remove problem (error) text
     let textCheck = document.getElementById("text");
     if(textCheck) textCheck.remove();
 }
 
-async function convertIDToAnime(animeid){
-    link = 'https://web-production-6bb3.up.railway.app/api.myanimelist.net/v2/' + choice + '/' + animeid + '?fields=title,synopsis,mean,main_picture'; 
+async function convertIDToAnime(animeid){ //take animeid and grab data to make it an object
+    link = proxy + 'api.myanimelist.net/v2/' + choice + '/' + animeid + '?fields=title,synopsis,mean,main_picture'; 
     try {
         var response = await fetch(link, {
             method: "GET",
@@ -119,9 +120,9 @@ async function convertIDToAnime(animeid){
 }
 
 
-async function getPTW(user, offset){
-    link = 'https://web-production-6bb3.up.railway.app/api.myanimelist.net/v2/users/' + user + '/animelist?offset=' + offset + '&limit=690&nsfw=true&status=plan_to_watch'; 
-    if (choice == 'manga') link = 'https://web-production-6bb3.up.railway.app/api.myanimelist.net/v2/users/' + user + '/mangalist?offset=' + offset + '&limit=690&nsfw=true&status=plan_to_read'; 
+async function getPTW(user, offset){ //return ptw ids for a user with specific interval (this allows for multiple calls to read whole ptw list)
+    link = proxy + 'api.myanimelist.net/v2/users/' + user + '/animelist?offset=' + offset + '&limit=690&nsfw=true&status=plan_to_watch'; 
+    if (choice == 'manga') link = proxy + 'api.myanimelist.net/v2/users/' + user + '/mangalist?offset=' + offset + '&limit=690&nsfw=true&status=plan_to_read'; 
     try {
         var response = await fetch(link, {
             method: "GET",
@@ -137,7 +138,7 @@ async function getPTW(user, offset){
     }
 }
 
-async function getAnimeIDs(user){
+async function getAnimeIDs(user){ //grab list of ids for comparison for a user
     let ids = [];
     let loop = 1;
     let offset = 0;
@@ -155,7 +156,7 @@ async function getAnimeIDs(user){
 }
 
 
-async function compareUsers(user1, user2){
+async function compareUsers(user1, user2){ //compare id list for users
     return new Promise((resolve, reject) => {
         var temp = [];
         getAnimeIDs(user1).then(res => {
