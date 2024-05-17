@@ -10,8 +10,9 @@ choice = "";
 var hashParams = window.location.hash.substring(1).split('&'); // substr(1) to remove the `#`
 for(var i = 0; i < hashParams.length; i++){
     var p = hashParams[i].split('=');
-    document.getElementById(p[0]).value = decodeURIComponent(p[1]);;
+    if(hashParams != "") document.getElementById(p[0]).value = decodeURIComponent(p[1]);;
 } //got this code snippet from stackoverflow to help manage appending info to the url for demo purposes <3
+//as is typical with internet snippets it broke the demo so had to add the check for no params
 
 function Anime (id, title, desc, score, image){ //anime info object
     this.id = id;
